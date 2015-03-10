@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PermutationsII {
 	public ArrayList<ArrayList<Integer>> res = new ArrayList<>();
@@ -8,29 +9,30 @@ public class PermutationsII {
         if (num == null || num.length == 0) {
 			return res;
 		}
-        dfs(0, num);
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        boolean[] used = new boolean[num.length];
+        Arrays.sort(num);
+        dfs(num, temp, used);
         return res;
     }
-    public void dfs(int i, int[] num) {
-		if (i == num.length) {
-			ArrayList<Integer> tempArrayList = new ArrayList<>();
-			for (int j = 0; j < num.length; j++) {
-				tempArrayList.add(num[j]);
-			}
+    public void dfs(int[] num, ArrayList<Integer> temp, boolean[] used) {
+		if (temp.size() == num.length) {
+		    @SuppressWarnings("unchecked")
+            ArrayList<Integer> tempArrayList = (ArrayList<Integer>) temp.clone();
 			res.add(tempArrayList);
 			return;
 		}
-		for (int j = i; j < num.length; j++) {
-			if (j != i && num[j] == num[i]) {
-				continue;
-			}
-			int tmp = num[i];
-			num[i] = num[j];
-			num[j] = tmp;
-			dfs(i+1, num);
-			tmp = num[j];
-			num[j] = num[i];
-			num[i] = tmp;
-		}		
+		for (int i = 0; i < num.length; i++) {
+		    if (i > 0 && !used[i-1] && num[i] == num[i-1]) {
+                continue;
+            }
+		    if (!used[i]) {
+	            temp.add(num[i]);
+	            used[i] = true;
+	            dfs(num, temp, used);
+	            temp.remove(temp.size() - 1);
+	            used[i] = false;
+            }
+        }
 	}
 }
