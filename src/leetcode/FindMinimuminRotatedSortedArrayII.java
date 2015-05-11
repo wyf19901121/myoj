@@ -15,11 +15,11 @@ public class FindMinimuminRotatedSortedArrayII {
 				}
 				low++;
 			}
-        	else if (nums[mid] < nums[high]) {
-				high = mid;
+        	else if (nums[mid] > nums[low]) {
+				low = mid;
 			}
         	else {
-				low = mid;
+				high = mid;
 			}
 		}
         return nums[low];
