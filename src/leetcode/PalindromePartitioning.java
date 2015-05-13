@@ -1,12 +1,11 @@
 package leetcode;
 
-import java.awt.List;
 import java.util.ArrayList;
 
 public class PalindromePartitioning {
-	public ArrayList<List<String>> res = new ArrayList<List<String>>();
+	public ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
 	public ArrayList<Integer> part = new ArrayList<Integer>();
-    public List<List<String>> partition(String s) {
+    public ArrayList<ArrayList<String>> partition(String s) {
     	boolean resMatrix[][] = new boolean[s.length()][s.length()];
         for (int i = 0; i < s.length(); i++) {
         	resMatrix[i][i] = true;
