@@ -2,31 +2,35 @@ package leetcode;
 
 public class RegularExpressionMatching {
     public boolean isMatch(String s, String p) {
-        if (p.length() == 0) {
+    	if (p == null) {
+			return s == null;
+		}
+    	if (p.length() == 0) {
 			return s.length() == 0;
 		}
-        char[] src = s.toCharArray();
-        char[] pos = p.toCharArray();
-        return isMatchsub(src, 0, pos, 0);
+    	
+    	char[] sch = s.toCharArray();
+    	char[] pch = p.toCharArray();
+    	return isMatched(sch, 0, pch, 0);
     }
-    public boolean isMatchsub(char[] s, int sindex, char[] p, int pindex) {
-		if (pindex == p.length) {
-			return sindex == s.length;
+    private boolean isMatched(char[] sch, int sIndex, char[] pch, int pIndex) {
+    	if (pIndex == pch.length) {
+			return sIndex == sch.length;
 		}
-		if (pindex+1 < p.length && p[pindex+1] == '*') {
-			while (sindex!= s.length && (s[sindex] == p[pindex] || p[pindex] == '.')) {
-				if (isMatchsub(s, sindex, p, pindex + 2)) {
+    	if (pIndex + 1 < pch.length && pch[pIndex+1] == '*') {
+    		while (sIndex != sch.length && (sch[sIndex] == pch[pIndex] || pch[pIndex] == '.')) {
+				if (isMatched(sch, sIndex, pch, pIndex+2)) {
 					return true;
 				}
-				sindex++;
+				sIndex++;
 			}
-			return isMatchsub(s, sindex, p, pindex+2);
+    		return isMatched(sch, sIndex, pch, pIndex+2);
 		}
-		else {
-			if (sindex != s.length && (s[sindex] == p[pindex] || p[pindex] == '.')) {
-				return isMatchsub(s, sindex+1, p, pindex+1);
+    	else {
+			if (sIndex != sch.length && (pch[pIndex] == '.' || pch[pIndex] == sch[sIndex])) {
+				return isMatched(sch, sIndex+1, pch, pIndex+1);
 			}
 			return false;
-		}
+		}	
 	}
 }
