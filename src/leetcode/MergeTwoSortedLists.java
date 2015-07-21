@@ -17,23 +17,19 @@ public class MergeTwoSortedLists {
         orginList = l1.val <= l2.val ? l1 : l2;
         newList = l1.val <= l2.val ? l2 : l1;
         newhead = orginList;
-        while (orginList != null && newList != null) {
-        	if (newList.val < orginList.val) {
-				ListNode newNext = newList.next;
-				newList.next = orginList;
-				newList = newNext;
-				if (newNext == null) {
-					return newhead;
-				}
+        while (orginList.next != null) {
+        	if (newList == null) {
+				return newhead;
 			}
-        	else {
-        		if (orginList.next == null) {
-					orginList.next = newList;
-					return newhead;
-				}
-				orginList = orginList.next;
-			}
+        	if(orginList.val <= newList.val && orginList.next.val >newList.val){
+        		ListNode orginNext = orginList.next;
+        		orginList.next = newList;
+        		newList = newList.next;
+        		orginList.next.next = orginNext;
+        	}
+        	orginList = orginList.next;
 		}
+        orginList.next = newList;
         return newhead;
     }
 }
