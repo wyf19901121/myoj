@@ -10,39 +10,41 @@ public class ReverseNodesinkGroup {
         }
     }
     public ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null || head.next == null || k <= 1) {
-            return head;
-        }
-        ListNode start = head, end = head, pre = null;
-        while (end != null) {
-            for (int i = 1; i < k && end != null; i++) {
-                end = end.next;
-            }
-            if (end == null) {
-                return head;
-            }
-            if (pre == null) {
-                head = end;
-            }
-            else {
-                pre.next = end;
-            }
-            pre = start;
-            reverse(start, end);
-            start = pre.next;
-            end = pre.next;
-        }
-        return head;
+    	if (head == null || head.next == null || k <= 1) {
+			return head;
+		}
+    	ListNode tempHead = new ListNode(0);
+    	tempHead.next = head;
+    	ListNode pre = tempHead, next = pre.next;
+    	while (next != null) {
+			for (int i = 0; i < k - 1 && next != null; i++) {
+				next = next.next;
+			}
+			if (next == null) {
+				return tempHead.next;
+			}
+			ListNode cur = pre.next;
+			pre.next = reverse(cur, next);
+			pre = cur;
+			next = pre.next;		
+		}
+    	return tempHead.next;
     }
-    public void reverse(ListNode head, ListNode tail) {
-        ListNode mid = head.next;
-        ListNode left = head;
-        head.next = tail.next;
-        while (mid != head.next && mid != null) {
-            ListNode right = mid.next;
-            mid.next = left;
-            left = mid;
-            mid = right;
-        }
-    }
+    private ListNode reverse(ListNode head, ListNode tail) {
+		if (head == null || tail == null) {
+			return head;
+		}
+		ListNode pre = null, cur = head;
+		while (cur != null) {
+			ListNode fast = cur.next;
+			cur.next = pre;
+			if (cur == tail) {
+				head.next = fast;
+				return tail;
+			}
+			pre = cur;
+			cur = fast;
+		}
+		return tail;
+	}
 }
