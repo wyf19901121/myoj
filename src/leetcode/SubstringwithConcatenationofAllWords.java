@@ -2,63 +2,64 @@ package leetcode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SubstringwithConcatenationofAllWords {
-    public ArrayList<Integer> findSubstring(String S, ArrayList<String> L) {
-        ArrayList<Integer> res = new ArrayList<>();
-        if (S == null || S.length() == 0 || L == null || L.size() == 0) {
-            return res;
-        }
-        HashMap<String, Integer> dic = new HashMap<>();
-        for (int i = 0; i < L.size(); i++) {
-            if(!dic.containsKey(L.get(i))) {
-                dic.put(L.get(i), 1);
-            }
-            else {
-                int count = dic.get(L.get(i));
-                dic.put(L.get(i), count+1);
-            }
-        }
-        int wordLen = L.get(0).length();
-        for (int i = 0; i < wordLen; i++) {
-            HashMap<String, Integer> cur = new HashMap<>();
-            int count = 0;
-            for (int begin = i, end = i; end <= S.length() - wordLen; end += wordLen) {
-                String str = S.substring(end, end + wordLen);
-                if (dic.containsKey(str)) {
-                    if (!cur.containsKey(str)) {
-                        cur.put(str, 1);
-                    }
-                    else {
-                        int c = cur.get(str);
-                        cur.put(str, c + 1);
-                    }
-                    if (cur.get(str) <= dic.get(str)) {
-                        count++;
-                    }
-                    else {
-                        for (int j = begin; ; j += wordLen) {
-                            String srcString = S.substring(j, j + wordLen);
-                            int cnt = cur.get(srcString);
-                            cur.put(srcString, cnt - 1);
-                            if (srcString.equals(str)) {
-                                begin = j + wordLen;
-                                break;
-                            }
-                            count--;
-                        }
-                    }
-                    if (count == L.size()) {
-                        res.add(begin);
-                    }
-                }
-                else {
-                    begin = end + wordLen;
-                    cur.clear();
-                    count = 0;
-                }
-            }
-        }
-        return res;
+    public List<Integer> findSubstring(String s, String[] words) {
+    	if (s == null || s.isEmpty() || words == null || words.length == 0) {
+			return new ArrayList<Integer>();
+		}
+    	ArrayList<Integer> res = new ArrayList<Integer>();
+    	HashMap<String, Integer> dic = new HashMap<String, Integer>();
+    	for (int i = 0; i < words.length; i++) {
+    		String key = words[i];
+			if (dic.containsKey(key)) {
+				dic.put(key, dic.get(key)+1);
+			}
+			else {
+				dic.put(key, 1);
+			}
+		}
+    	int wordLen = words[0].length();
+    	for (int i = 0; i < wordLen; i++) {
+    		int count = 0;
+    		HashMap<String, Integer> cur = new HashMap<String, Integer>();
+    		for (int start = i, end = i; end <= s.length() - wordLen; end+=wordLen) {
+    			String curStr = s.substring(end, end + wordLen);
+				if (dic.containsKey(curStr)) {
+					if (!cur.containsKey(curStr)) {
+						cur.put(curStr, 1);
+					}
+					else {
+						int curNum = cur.get(curStr);
+						cur.put(curStr, curNum + 1);
+					}
+					if (cur.get(curStr) <= dic.get(curStr)) {
+						count++;
+					}
+					else {
+						for (int j = start;; j+=wordLen) {
+							String delStr = s.substring(j, j+wordLen);
+							int cnt = cur.get(delStr);
+							cur.put(delStr, cnt - 1);
+							if (delStr.equals(curStr)) {
+								start = j + wordLen;
+								break;
+							}
+							count--;
+						}
+					}
+					if (count == words.length) {
+						res.add(start);
+					}
+				}
+				else {
+					start = end + wordLen;
+					count = 0;
+					cur.clear();
+				}
+			}
+		}
+    	return res;
     }
 }
