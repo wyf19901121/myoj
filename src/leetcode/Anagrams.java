@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,36 +10,22 @@ public class Anagrams {
         Map<String, Integer> resMap = new HashMap<String, Integer> ();
         ArrayList<String> resArrayList = new ArrayList<>();
         for (int i = 0; i < strs.length; i++) {
-            String key = transfer(strs[i]);
-            if (!resMap.containsKey(key)) {
-                resMap.put(key, i);
-            }
-            else {
-                if (resMap.get(key) != -1) {
-                    resArrayList.add(strs[i]);
-                    resArrayList.add(strs[resMap.get(key)]);
-                    resMap.put(key, -1);
-                }
-                else {
-                    resArrayList.add(strs[i]);
-                }
-            }
-        }
+			char[] oldStr = strs[i].toCharArray();
+			char[] newStr = new char [oldStr.length];
+			System.arraycopy(oldStr, 0, newStr, 0, oldStr.length);
+			Arrays.sort(newStr);
+			String str = String.valueOf(newStr);
+			if (resMap.containsKey(str)) {
+				if (resMap.get(str) != -1) {
+					resArrayList.add(strs[resMap.get(str)]);
+					resMap.put(str, -1);
+				}
+				resArrayList.add(strs[i]);
+			}
+			else {
+				resMap.put(str, i);
+			}
+		}
         return resArrayList;
-    }
-    public String transfer(String s) {
-        StringBuilder t = new StringBuilder();  
-        
-        int[] count = new int[26];  
-        for (int i = 0; i < s.length(); i++) {  
-            count[s.charAt(i) - 'a']++;  
-        }  
-        for (int i = 0; i < count.length; i++) {  
-            for (int j = 0; j < count[i]; j++) {  
-                t.append((char) ('a' + i));  
-            }  
-        }  
-          
-        return t.toString(); 
     }
 }
