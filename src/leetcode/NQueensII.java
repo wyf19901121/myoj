@@ -1,29 +1,29 @@
 package leetcode;
 
 public class NQueensII {
-    public int sum = 0;
     public int totalNQueens(int n) {
         int[] array = new int[n];
+        int sum = 0;
         for (int i = 0; i < array.length; i++) {
             array[0] = i;
-            tryQueen(array, 1, n);
+            sum += tryQueen(array, 1, n);
             array[0] = 0;
         }
         return sum;
     }
-    public void tryQueen(int[] array, int row, int count) {
+    public int tryQueen(int[] array, int row, int count) {
         if (row == count) {
-            sum++;
-            return ;
+            return 1;
         }
+        int sum = 0;
         for (int i = 0; i < array.length; i++) {
             if (checkcol(array, row, i)) {
                 array[row] = i;
-                tryQueen(array, row+1, count);
+                sum += tryQueen(array, row+1, count);
                 array[row] = 0;
             }
         }
-        return ;
+        return sum;
     }
     public boolean checkcol(int[] array, int row, int col) {
         for (int i = 0; i < row; i++) {
