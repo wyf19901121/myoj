@@ -19,7 +19,6 @@ public class MergeIntervals {
         Arrays.sort(arrayIntervals, new Comparator<Interval>() {
             @Override
             public int compare(Interval o1, Interval o2) {
-                // TODO Auto-generated method stub
                 return o1.start - o2.start;
             }
         });
