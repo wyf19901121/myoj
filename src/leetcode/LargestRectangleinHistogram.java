@@ -5,14 +5,14 @@ import java.util.Stack;
 public class LargestRectangleinHistogram {
     public int largestRectangleArea(int[] height) {
         int area = 0;
-        Stack<Integer> index = new Stack<>();
+        Stack<Integer> indexs = new Stack<Integer>();
         for (int i = 0; i <= height.length; i++) {
-            if (index.empty() || (i < height.length && height[index.peek()] < height[i])) {
-                index.push(i);
+            if (indexs.empty() || (i < height.length && height[indexs.peek()] < height[i])) {
+                indexs.push(i);
             }
             else {
-                int start = index.pop();
-                int width = index.empty() ? i : i - index.peek() - 1;
+                int start = indexs.pop();
+                int width = indexs.empty() ? i : i - indexs.peek() - 1;
                 area = Math.max(area, height[start] * width);
                 i--;
             }
