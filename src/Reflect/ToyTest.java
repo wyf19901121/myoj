@@ -4,6 +4,8 @@ interface HasBatteries {}
 interface Waterproof {}
 interface Shoots {}
 
+interface ToyTestInterface {}
+
 class Toy {
     public Toy() {
         // TODO Auto-generated constructor stub
@@ -20,7 +22,7 @@ class FancyToy extends Toy implements HasBatteries, Waterproof, Shoots {
     }
 }
 
-public class ToyTest {
+public class ToyTest implements ToyTestInterface {
     @SuppressWarnings("rawtypes")
     static void printInfo(Class cc) {
         System.out.println("Class name: " + cc.getName() + " is interface? [" + cc.isInterface() + "]");
@@ -42,7 +44,33 @@ public class ToyTest {
         for (Class face : c.getInterfaces()) {
             printInfo(face);
         }
+        
         Class up = c.getSuperclass();
         Object obj = null;
+        try {
+            obj = up.newInstance();
+        } catch (InstantiationException e) {
+            System.out.println("Cannot instantiate");
+            System.exit(1);
+            // TODO: handle exception
+        } catch (IllegalAccessException e) {
+            System.out.println("Cannot access");
+            System.exit(1);
+            // TODO: handle exception
+        }
+        printInfo(obj.getClass());
+        
+        Class ccc = null;
+        try {
+            ccc = Class.forName("Reflect.ToyTest");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Can't find FancyToy");
+            System.exit(1);
+            // TODO: handle exception
+        }
+        printInfo(ccc);
+        for (Class face : ccc.getInterfaces()) {
+            printInfo(face);
+        }
     }
 }
