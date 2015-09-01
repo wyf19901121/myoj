@@ -21,6 +21,7 @@ public class GoogleFile {
         writer = new BufferedWriter(new FileWriter(outfile));
         int caseNum = Integer.parseInt(reader.readLine());
         for (int i = 0; i < caseNum; i++) {
+            //TODO:slove ith case
             StringBuffer outr = new StringBuffer("Case #");
             outr.append(i+1);
             outr.append(":");
