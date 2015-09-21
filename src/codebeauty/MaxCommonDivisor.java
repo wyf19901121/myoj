@@ -1,12 +1,16 @@
 package codebeauty;
 
 import java.math.BigInteger;
+import java.util.Stack;
 
 public class MaxCommonDivisor {
     public int gcd(int x, int y) {
         return y == 0 ? x : gcd(y, x % y);
     }
-    
+    public Stack<Integer> res = new Stack<Integer>();
+    public void test() {
+        
+    }
     public BigInteger gcd(BigInteger x, BigInteger y) {
         if (x.compareTo(y) < 0) {
             return gcd(y, x);
