@@ -50,6 +50,7 @@ public class SubstringwithConcatenationofAllWords30 {
                             break;
                         }
                     }
+                    continue;
                 }
 
                 if (count == words.length) {
